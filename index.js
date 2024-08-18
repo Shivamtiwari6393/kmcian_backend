@@ -5,7 +5,7 @@ const paperRouter = require("./routes/paperRoute")
 const userRoute = require("./routes/userRoute")
 const connectDB = require('./config/db');
 const dotenv = require('dotenv');
-
+const Logs = require('./middleware/Logs')
 
 
 dotenv.config();
@@ -26,6 +26,8 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.text())
+
+app.use(Logs);
 
 app.use('/', paperRouter)
 app.use('/api', userRoute);
