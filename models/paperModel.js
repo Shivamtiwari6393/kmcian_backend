@@ -28,6 +28,15 @@ const paperSchema = new mongoose.Schema({
     pdfContentType: {
         type: String,
         required: true
+    },
+
+    downloadable : {
+        type: Boolean,
+        required: true
+    },
+
+    name: {
+        type: String,
     }
 
 
