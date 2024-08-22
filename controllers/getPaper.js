@@ -6,6 +6,8 @@ const getPaper = async (req, res) => {
 
     const { course, branch, semester } = req.body
 
+    
+
     try {
         const reqPaper = await Paper.find({ course: course, branch: branch, semester: semester, downloadable: false }, { pdf: 0, pdfContentType: 0 })
         

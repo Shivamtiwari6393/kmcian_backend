@@ -30,15 +30,17 @@ const paperSchema = new mongoose.Schema({
         required: true
     },
 
-    downloadable : {
+    downloadable: {
         type: Boolean,
         required: true
     },
 
     name: {
         type: String,
+    },
+    year: {
+        type: String
     }
-
 
 }, { timestamps: true })
 
