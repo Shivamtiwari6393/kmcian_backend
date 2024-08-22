@@ -4,12 +4,12 @@ const getPaper = async (req, res) => {
 
     console.log("GET request from -----", req.rawHeaders[21])
 
-    const { course, branch, semester } = req.body
+    const { course, branch, semester, year } = req.body
 
     
 
     try {
-        const reqPaper = await Paper.find({ course: course, branch: branch, semester: semester, downloadable: false }, { pdf: 0, pdfContentType: 0 })
+        const reqPaper = await Paper.find({ course: course, branch: branch, semester: semester, downloadable: false , year: year}, { pdf: 0, pdfContentType: 0 })
         
         if (reqPaper.length === 0) {
             return res.status(404).json({ error: "No papers found" });
