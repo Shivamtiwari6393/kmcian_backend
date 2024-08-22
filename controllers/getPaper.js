@@ -8,6 +8,7 @@ const getPaper = async (req, res) => {
 
     try {
         const reqPaper = await Paper.find({ course: course, branch: branch, semester: semester, downloadable: false }, { pdf: 0, pdfContentType: 0 })
+        
         if (reqPaper.length === 0) {
             return res.status(404).json({ error: "No papers found" });
         }
