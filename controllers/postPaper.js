@@ -3,7 +3,6 @@ const postPaper = async (req, res) => {
 
     console.log("Post request from -----", req.rawHeaders[21])
     const { course, branch, paper, semester, name,year } = req.body
-    console.log(req.body);
     
 
     if (!course || !branch || !paper || !semester || !(req?.file?.buffer || false) || !year) {

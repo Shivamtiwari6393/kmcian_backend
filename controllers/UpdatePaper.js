@@ -4,7 +4,12 @@ const UpdatePaper = async (req, res) => {
 
     try {
         const { id } = req.params
-        const data = JSON.parse(req.body)
+        const data = req.body
+
+        if (req.file) {
+            data.pdf = req.file.buffer;
+            data.pdfContentType = req.file.mimetype;
+        }
 
         const updatedPaper = await Paper.findByIdAndUpdate(id, {
             $set: data
@@ -19,6 +24,8 @@ const UpdatePaper = async (req, res) => {
 
 
     } catch (error) {
+        console.log(error);
+
         res.status(500).json({ message: "Error updating Paper" })
     }
 
