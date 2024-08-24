@@ -11,9 +11,9 @@ const getPaper = async (req, res) => {
             downloadable: downloadable,
         }
 
-        if(semester) requestedData.semester = semester
-        if(year) requestedData.year = year
-        if(branch) requestedData.branch = branch
+        if(semester !== "All" ) requestedData.semester = semester
+        if(year !== "All") requestedData.year = year
+        if(branch !== "All") requestedData.branch = branch
 
 
     
