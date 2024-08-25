@@ -45,6 +45,4 @@ const paperSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
-const Paper = mongoose.model('paper', paperSchema)
-
-module.exports = Paper
+module.exports = paperSchema

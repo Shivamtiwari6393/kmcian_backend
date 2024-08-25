@@ -1,14 +1,16 @@
 
-const Paper = require("../models/paperModel")
+const paperSchema = require("../models/paperSchema")
+const mongoose = require('mongoose')
 
 const deletePaper = async (req, res) => {
-    const { id } = req.params
+    const { id, course } = req.params
 
     try {
+        const Paper = mongoose.model("paper", paperSchema, course);
 
         const deletedPaper = await Paper.findByIdAndDelete(id)
 
-        if (!deletePaper) {
+        if (!deletedPaper) {
             res.status(404).json({ message: "Paper not found" })
         }
         res.status(200).json({ message: "Paper deleted successfully" })

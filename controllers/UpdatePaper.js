@@ -1,4 +1,5 @@
-const Paper = require("../models/paperModel")
+const paperSchema = require("../models/paperSchema")
+const mongoose = require('mongoose')
 
 const UpdatePaper = async (req, res) => {
 
@@ -6,10 +7,14 @@ const UpdatePaper = async (req, res) => {
         const { id } = req.params
         const data = req.body
 
+
         if (req.file) {
             data.pdf = req.file.buffer;
             data.pdfContentType = req.file.mimetype;
         }
+
+
+        const Paper = mongoose.model("paper", paperSchema, data.course);
 
         const updatedPaper = await Paper.findByIdAndUpdate(id, {
             $set: data
@@ -24,7 +29,7 @@ const UpdatePaper = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error);
+        console.log("inside update paper catch",error);
 
         res.status(500).json({ message: "Error updating Paper" })
     }
