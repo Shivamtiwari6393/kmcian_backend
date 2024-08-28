@@ -17,9 +17,6 @@ router.get('/api/paper/download',downloadPaper);
 
 router.put('/api/paper/update/:id',upload.single('updatedpdf'),updatePaper)
 
-router.delete('/api/paper/delete/:id',deletePaper)
-
-
-
+router.delete('/api/paper/delete/:course/:id',deletePaper)
 
 module.exports = router
