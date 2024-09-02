@@ -88,12 +88,12 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = JSON.parse(req.body)
 
-  console.log(email, password, "email", "password");
+  // console.log(email, password, "email", "password");
 
 
   try {
 
-    console.log("inside try login");
+    // console.log("inside try login");
 
     const user = await User.findOne({ email });
 

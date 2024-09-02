@@ -15,7 +15,7 @@ router.post('/api/paper/upload', upload.single('pdf'), postPaper)
 
 router.get('/api/paper/download',downloadPaper);
 
-router.put('/api/paper/update/:id',protect,upload.single('updatedpdf'),updatePaper)
+router.put('/api/paper/update/:id',protect,upload.single('pdf'),updatePaper)
 
 router.delete('/api/paper/delete/:course/:id',protect,deletePaper)
 
