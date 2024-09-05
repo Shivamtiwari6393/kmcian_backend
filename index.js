@@ -20,11 +20,9 @@ const server = http.createServer(app);
 
 socket(server)
 
-// Middleware
-
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Ensure this matches your frontend's URL
+    origin: true, 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
@@ -34,11 +32,9 @@ app.use(express.text());
 
 app.use(Logs);
 
-// Routes
 app.use('/', paperRouter);
 app.use('/api', userRoute);
 
-// Start server
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
