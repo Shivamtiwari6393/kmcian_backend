@@ -10,13 +10,13 @@ const deletePaper = require("../controllers/deletePaper")
 const upload = multer({ storage: multer.memoryStorage() })
 const protect = require("../middleware/auth")
 
-router.post(`/api/paper`, getPaper)
-router.post('/api/paper/upload', upload.single('pdf'), postPaper)
+router.post(`/`, getPaper)
+router.post('/post', upload.single('pdf'), postPaper)
 
-router.get('/api/paper/download',downloadPaper);
+router.get('/download',downloadPaper);
 
-router.put('/api/paper/update/:id',protect,upload.single('pdf'),updatePaper)
+router.put('/update/:id',protect,upload.single('pdf'),updatePaper)
 
-router.delete('/api/paper/delete/:course/:id',protect,deletePaper)
+router.delete('/delete/:course/:id',protect,deletePaper)
 
 module.exports = router

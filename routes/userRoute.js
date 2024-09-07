@@ -24,7 +24,7 @@ const generateToken = (id) => {
 
 
 
-router.put('/user', async (req, res) => {
+router.put('/update', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {

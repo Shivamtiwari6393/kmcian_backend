@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
 const paperRouter = require('./routes/paperRoute');
@@ -7,8 +6,8 @@ const connectDB = require('./config/db');
 const dotenv = require('dotenv');
 const Logs = require('./middleware/Logs');
 const http = require('http');
-const { Server } = require('socket.io');
-const socket = require("./config/socket")
+const socket = require("./config/socket");
+const announcementRoute = require('./routes/AnnouncementRoute');
 
 dotenv.config();
 connectDB();
@@ -32,8 +31,9 @@ app.use(express.text());
 
 app.use(Logs);
 
-app.use('/', paperRouter);
-app.use('/api', userRoute);
+app.use('/api/paper', paperRouter);
+app.use('/api/user', userRoute);
+app.use('/api/announcement', announcementRoute)
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
