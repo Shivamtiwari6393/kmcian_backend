@@ -19,7 +19,7 @@ const getPaper = async (req, res) => {
     try {
         const Paper = mongoose.model("paper", paperSchema, course);
 
-        const reqPaper = await Paper.find({ ...requestedData }, { pdf: 0, pdfContentType: 0 }).sort({ branch: 1, paper: 1, semester: 1, year: 1 })
+        const reqPaper = await Paper.find({ ...requestedData }, { pdf: 0, pdfContentType: 0 }).sort({ paper: 1 })
 
         if (reqPaper.length === 0) {
             return res.status(404).json({ error: "No papers found" });
