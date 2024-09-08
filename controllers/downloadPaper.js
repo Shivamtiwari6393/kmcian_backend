@@ -9,21 +9,20 @@ const downloadPaper = async (req, res) => {
         const Paper = mongoose.model("paper", paperSchema, course);
 
         const reqPaper = await Paper.findOne({ paper: paper, semester: semester, branch: branch, year: year });
-        console.log(reqPaper);
 
         if (!reqPaper) {
-            return res.status(404).json({ error: "Paper not found" });
+            return res.status(404).json({ message: "Paper not found" });
         }
 
         res.setHeader('Content-Type', reqPaper.pdfContentType);
         res.setHeader('Content-Disposition', `attachment; filename="${reqPaper.paper}.pdf"`);
 
-        res.send(reqPaper.pdf);
+        res.status(200).send(reqPaper.pdf);
 
     } catch (error) {
-        console.log(error);
+        console.log("error in downloading paper",error);
 
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 

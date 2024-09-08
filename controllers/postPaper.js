@@ -8,25 +8,26 @@ const postPaper = async (req, res) => {
 
 
     if (!course || !branch || !paper || !semester || !(req?.file?.buffer || false) || !year) {
-        return res.status(400).json({ error: "All fields are required" })
+        return res.status(400).json({ message: "All fields are required" })
     }
     const pdf = req.file.buffer
     const pdfContentType = req.file.mimetype
     try {
 
-        // dynamic cllection
+        // dynamic collection
         const Paper = mongoose.model("paper", paperSchema, course);
         const newPaper = new Paper({ course, branch, paper, semester, pdf, pdfContentType, downloadable: false, name, year })
 
         await newPaper.save();
 
-        console.log("saved in database");
+        // console.log("saved in database");
+
         res.status(201).json({ message: "File uploaded sucessfully" })
 
     }
     catch (e) {
-        console.log("inside post paper catch", e);
-        res.status(500).json({ error: "internal server error" })
+        console.log("error in uploading paper", e);
+        res.status(500).json({ message: "Internal Server Error" })
     }
 }
 

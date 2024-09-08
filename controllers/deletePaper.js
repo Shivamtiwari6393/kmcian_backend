@@ -19,8 +19,9 @@ const deletePaper = async (req, res) => {
 
 
     } catch (e) {
+        console.log("error in deleting paper", error);
 
-        return res.status(500).json({ message: "Failed to delete Paper" })
+        return res.status(500).json({ message: "Internal Server Error" })
 
     }
 

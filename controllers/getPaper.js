@@ -22,14 +22,14 @@ const getPaper = async (req, res) => {
         const reqPaper = await Paper.find({ ...requestedData }, { pdf: 0, pdfContentType: 0 }).sort({ paper: 1 })
 
         if (reqPaper.length === 0) {
-            return res.status(404).json({ error: "No papers found" });
+            return res.status(404).json({ message: "No papers found" });
         }
         res.status(200).json(reqPaper)
     }
     catch (e) {
         console.log(e);
 
-        res.status(500).json({ error: "internal server error" })
+        res.status(500).json({ message: "Internal Server Error" })
 
     }
 
