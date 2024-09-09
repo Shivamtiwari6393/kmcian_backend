@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 const Logs = require('./middleware/Logs');
 const http = require('http');
 const socket = require("./config/socket");
-const announcementRoute = require('./routes/AnnouncementRoute');
+const announcmentRoute = require('./routes/AnnouncmentRoute');
 
 dotenv.config();
 connectDB();
@@ -33,7 +33,7 @@ app.use(Logs);
 
 app.use('/api/paper', paperRouter);
 app.use('/api/user', userRoute);
-app.use('/api/announcement', announcementRoute)
+app.use('/api/announcment', announcmentRoute)
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
