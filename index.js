@@ -7,7 +7,8 @@ const dotenv = require('dotenv');
 const Logs = require('./middleware/Logs');
 const http = require('http');
 const socket = require("./config/socket");
-const announcmentRoute = require('./routes/AnnouncmentRoute');
+const announcementRoute = require('./routes/AnnouncementRoute');
+const auth = require('./middleware/auth')
 
 dotenv.config();
 connectDB();
@@ -21,19 +22,20 @@ socket(server)
 
 
 app.use(cors({
-    origin: true, 
+    origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
+
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ limit: '2mb', extended: true }));
 app.use(express.text());
 
 app.use(Logs);
 
-app.use('/api/paper', paperRouter);
 app.use('/api/user', userRoute);
-app.use('/api/announcment', announcmentRoute)
+app.use('/api/paper', paperRouter);
+app.use('/api/announcement', announcementRoute)
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {

@@ -88,7 +88,9 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = JSON.parse(req.body)
 
-  // console.log(email, password, "email", "password");
+  
+
+  console.log(email, password, "email", "password");
 
 
   try {
@@ -96,6 +98,8 @@ router.post('/login', async (req, res) => {
     // console.log("inside try login");
 
     const user = await User.findOne({ email });
+    console.log(user);
+    
 
     if (!user) {
       return res.status(400).json({ error: 'Invalid email or password' });
