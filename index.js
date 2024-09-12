@@ -10,6 +10,9 @@ const socket = require("./config/socket");
 const announcementRoute = require('./routes/AnnouncementRoute');
 const auth = require('./middleware/auth')
 
+
+
+
 dotenv.config();
 connectDB();
 
