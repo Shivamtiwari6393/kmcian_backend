@@ -9,6 +9,8 @@ const http = require('http');
 const socket = require("./config/socket");
 const announcementRoute = require('./routes/AnnouncementRoute');
 const queryRoute = require('./routes/queryRoute')
+const requestRoute = require('./routes/requestRoute')
+
 
 
 
@@ -40,6 +42,8 @@ app.use('/api/user', userRoute);
 app.use('/api/paper', paperRouter);
 app.use('/api/announcement', announcementRoute)
 app.use('/api/query', queryRoute)
+
+app.use("/api/request", requestRoute)
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
