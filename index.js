@@ -8,7 +8,7 @@ const Logs = require('./middleware/Logs');
 const http = require('http');
 const socket = require("./config/socket");
 const announcementRoute = require('./routes/AnnouncementRoute');
-const auth = require('./middleware/auth')
+const queryRoute = require('./routes/queryRoute')
 
 
 
@@ -39,6 +39,7 @@ app.use(Logs);
 app.use('/api/user', userRoute);
 app.use('/api/paper', paperRouter);
 app.use('/api/announcement', announcementRoute)
+app.use('/api/query', queryRoute)
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {

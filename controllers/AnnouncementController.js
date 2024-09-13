@@ -39,9 +39,9 @@ const getAnnouncement = async (req, res) => {
 
 
     try {
-        const { page } = req.params || 1
+        const currentPage = Number(req.params.currentPage) || 1
 
-        const skip = (page - 1) * 5
+        const skip = (currentPage - 1) * 5
 
         const announcements = await Announcement.find().sort({ 'createdAt': -1 }).skip(skip).limit(5)
 
@@ -51,7 +51,7 @@ const getAnnouncement = async (req, res) => {
 
         totalPage = Math.ceil(total / 5)
 
-        res.status(200).json({ announcements, totalPage })
+        res.status(200).json({ announcements, currentPage, totalPage })
     } catch (error) {
         console.log("error fetching Announcement", error);
 

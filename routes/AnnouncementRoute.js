@@ -6,7 +6,7 @@ const protect = require("../middleware/auth")
 
 const {postAnnouncement,getAnnouncement,deleteAnnouncement} = require('../controllers/AnnouncementController')
 
-router.get('/:page',getAnnouncement)
+router.get('/:currentPage',getAnnouncement)
 router.post('/',protect,postAnnouncement)
 router.delete('/',protect,deleteAnnouncement)
 

@@ -9,6 +9,6 @@ const AnnouncementSchema = new mongoose.Schema({
 
 }, { timestamps: true })
 
-const Announcement = mongoose.model("Announcement", AnnouncementSchema)
+const announcementModel = mongoose.model("Announcement", AnnouncementSchema)
 
-module.exports = Announcement
+module.exports = announcementModel
