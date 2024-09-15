@@ -10,6 +10,7 @@ const socket = require("./config/socket");
 const announcementRoute = require('./routes/AnnouncementRoute');
 const queryRoute = require('./routes/queryRoute')
 const requestRoute = require('./routes/requestRoute')
+const replyRouter = require('./routes/replyRoute')
 
 
 
@@ -42,6 +43,7 @@ app.use('/api/user', userRoute);
 app.use('/api/paper', paperRouter);
 app.use('/api/announcement', announcementRoute)
 app.use('/api/query', queryRoute)
+app.use("/api/reply", replyRouter)
 
 app.use("/api/request", requestRoute)
 

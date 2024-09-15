@@ -31,8 +31,6 @@ const postQuery = async (req, res) => {
     try {
         const { content, name } = JSON.parse(req.body)
 
-        console.log(req.body);
-
         if (!content || !name) return res.status(400).json({ message: "All fields are required" })
         const newQuery = new Query({
             content: content,

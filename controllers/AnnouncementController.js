@@ -21,7 +21,7 @@ const postAnnouncement = async (req, res) => {
         await newAnnouncement.save()
 
         // respond with success
-        res.status(201).json({ message: "Announcement uploaded sucessfully" })
+        res.status(201).json({ message: "Announcement uploaded successfully" })
     } catch (error) {
         console.log("error posting Announcement", error);
 
