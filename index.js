@@ -10,10 +10,8 @@ const socket = require("./config/socket");
 const announcementRoute = require('./routes/AnnouncementRoute');
 const queryRoute = require('./routes/queryRoute')
 const requestRoute = require('./routes/requestRoute')
-const replyRouter = require('./routes/replyRoute')
-
-
-
+const replyRoute = require('./routes/replyRoute')
+const commentRoute = require('./routes/commentRoute')
 
 
 dotenv.config();
@@ -25,7 +23,6 @@ const server = http.createServer(app);
 // setting-up socket
 
 socket(server)
-
 
 app.use(cors({
     origin: true,
@@ -43,9 +40,9 @@ app.use('/api/user', userRoute);
 app.use('/api/paper', paperRouter);
 app.use('/api/announcement', announcementRoute)
 app.use('/api/query', queryRoute)
-app.use("/api/reply", replyRouter)
-
+app.use("/api/reply", replyRoute)
 app.use("/api/request", requestRoute)
+app.use("/api/comment", commentRoute)
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {

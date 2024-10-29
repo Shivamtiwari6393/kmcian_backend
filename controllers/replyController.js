@@ -22,6 +22,7 @@ const postReply = async (req, res) => {
     try {
 
         const { queryId, content } = JSON.parse(req.body)
+        if (!content || !queryId) return res.status(400).json({ message: "All fields are required" })
 
         const newReply = new Reply({
             queryId: queryId,
