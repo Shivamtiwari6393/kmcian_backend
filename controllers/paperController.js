@@ -98,7 +98,7 @@ const postPaper = async (req, res) => {
 
         // console.log("saved in database");
 
-        res.status(201).json({ message: "File uploaded sucessfully" })
+        res.status(201).json({ message: "File uploaded successfully" })
 
     }
     catch (e) {

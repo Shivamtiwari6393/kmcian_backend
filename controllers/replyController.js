@@ -40,4 +40,19 @@ const postReply = async (req, res) => {
 }
 
 
-module.exports = { getReply, postReply }
+
+//================ delete many reply ===========================
+
+const deleteManyReply = async (queryId) => {
+
+    try {
+        const deletedReply = await Reply.deleteMany({ "queryId": queryId })
+        return deletedReply
+    } catch (error) {
+        console.log("error in deleting many reply");
+        return false
+    }
+}
+
+
+module.exports = { getReply, postReply, deleteManyReply }
