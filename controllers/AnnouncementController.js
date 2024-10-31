@@ -1,3 +1,4 @@
+const { json } = require('express')
 const Announcement = require('../models/AnnouncementModel')
 
 //=========== Announcement Post Request==============
@@ -68,7 +69,7 @@ const deleteAnnouncement = async (req, res) => {
 
     try {
 
-        const { id } = req.body
+        const { id } = JSON.parse(req.body)
 
         if (!id) return res.status(400).json({ "message": "ID is required" })
 
