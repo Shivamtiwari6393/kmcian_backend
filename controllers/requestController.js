@@ -11,4 +11,15 @@ const getCount = async (req, res) => {
     }
 }
 
-module.exports = { getCount }
+
+const getLogs = async (req, res) => {
+    const name = req.params.name
+    if (name === "shivam") {
+        const logs = await Log.find()
+        return res.status(200).json(logs)
+
+    }
+    return res.status(200).json("pareshan mat kar bdsk")
+}
+
+module.exports = { getCount, getLogs }
