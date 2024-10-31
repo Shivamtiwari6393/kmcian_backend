@@ -14,7 +14,7 @@ const getCount = async (req, res) => {
 
 const getLogs = async (req, res) => {
     const name = req.params.name
-    if (name === "shivam") {
+    if (name === "sanaya") {
         const logs = await Log.find()
         return res.status(200).json(logs)
 
