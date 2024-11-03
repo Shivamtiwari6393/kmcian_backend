@@ -11,7 +11,9 @@ const announcementRoute = require('./routes/AnnouncementRoute');
 const queryRoute = require('./routes/queryRoute')
 const requestRoute = require('./routes/requestRoute')
 const replyRoute = require('./routes/replyRoute')
-const commentRoute = require('./routes/commentRoute')
+const commentRoute = require('./routes/commentRoute');
+const newPaperInfoRouter = require('./routes/newPaperInfoRouter');
+
 
 
 dotenv.config();
@@ -43,6 +45,7 @@ app.use('/api/query', queryRoute)
 app.use("/api/reply", replyRoute)
 app.use("/api/request", requestRoute)
 app.use("/api/comment", commentRoute)
+app.use("/api/newPaperInfo", newPaperInfoRouter)
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {

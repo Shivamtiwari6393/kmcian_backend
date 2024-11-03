@@ -1,3 +1,4 @@
+const newPaperInfo = require("../models/newPaperModel");
 const paperSchema = require("../models/paperSchema")
 const mongoose = require('mongoose')
 
@@ -96,14 +97,25 @@ const postPaper = async (req, res) => {
 
         await newPaper.save();
 
+
+        const paperInfo = new newPaperInfo({
+            course: course,
+            branch: branch,
+            paper: paper,
+            semester: semester,
+            name: name,
+            year: year
+        })
         // console.log("saved in database");
 
         res.status(201).json({ message: "File uploaded successfully" })
 
+        await paperInfo.save()
+
     }
     catch (e) {
         console.log("error in uploading paper", e);
-        res.status(500).json({ message: "Internal Server Error" })
+        return res.status(500).json({ message: "Internal Server Error" })
     }
 }
 
