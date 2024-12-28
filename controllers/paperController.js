@@ -7,12 +7,10 @@ const mongoose = require('mongoose')
 // download paper 
 
 const downloadPaper = async (req, res) => {
-    const { course, paper, semester, branch, year } = req.query;
-
+    const { course, paper, semester, branch, year, t } = req.query;
     try {
 
         const Paper = mongoose.model("paper", paperSchema, course);
-
         const reqPaper = await Paper.findOne({ paper: paper, semester: semester, branch: branch, year: year });
 
         if (!reqPaper) {
@@ -20,8 +18,9 @@ const downloadPaper = async (req, res) => {
         }
 
         res.setHeader('Content-Type', reqPaper.pdfContentType);
-        res.setHeader('Content-Disposition', `attachment; filename="${reqPaper.paper}.pdf"`);
 
+        if (t === 'd') res.setHeader('Content-Disposition', `attachment; filename="${reqPaper.paper}.pdf"`);
+        if (t === 's') res.setHeader('Content-Disposition', `inline; filename="${reqPaper.paper}.pdf"`);
         res.status(200).send(reqPaper.pdf);
 
     } catch (error) {
@@ -41,11 +40,7 @@ const downloadPaper = async (req, res) => {
 
 
 const getPaper = async (req, res) => {
-
-
     const { course, branch, semester, year, downloadable } = req.body
-
-
     const requestedData = {
         course: course,
         downloadable: downloadable,
@@ -57,7 +52,6 @@ const getPaper = async (req, res) => {
 
     try {
         const Paper = mongoose.model("paper", paperSchema, course);
-
         const reqPaper = await Paper.find({ ...requestedData }, { pdf: 0, pdfContentType: 0 }).sort({ paper: 1 })
 
         if (reqPaper.length === 0) {
@@ -107,11 +101,8 @@ const postPaper = async (req, res) => {
             year: year
         })
         // console.log("saved in database");
-
-        res.status(201).json({ message: "File uploaded successfully" })
-
         await paperInfo.save()
-
+        res.status(201).json({ message: "File uploaded successfully" })
     }
     catch (e) {
         console.log("error in uploading paper", e);

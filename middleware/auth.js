@@ -4,14 +4,14 @@ const User = require('../models/userModel');
 const protect = async (req, res, next) => {
   let token;
 
-  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+  if (req.cookies.token) {
     try {
-      token = req.headers.authorization.split(' ')[1];
+      token = req.cookies.token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       // console.log(decoded);
-      req.user = await User.findById(decoded.id).select('-password');    
+      req.user = await User.findById(decoded.id).select('-password');
       // console.log(req.user,"authenticated");
-        
+
       next();
     } catch (error) {
       console.error('Token verification failed:', error.message);

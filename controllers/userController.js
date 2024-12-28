@@ -2,6 +2,7 @@
 const User = require("../models/userModel")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs');
+const { path } = require("../models/paperSchema");
 
 
 
@@ -10,7 +11,7 @@ const bcrypt = require('bcryptjs');
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '1d',
+        expiresIn: '5h',
     });
 };
 
@@ -54,14 +55,9 @@ const loginUser = async (req, res) => {
     const { email, password } = JSON.parse(req.body)
 
     // console.log(email, password, "email", "password");
-
-
     try {
 
         const user = await User.findOne({ email });
-        // console.log(user);
-
-
         if (!user) {
             return res.status(400).json({ message: 'Invalid email' });
         }
@@ -72,15 +68,9 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid password' });
         }
 
-        res.status(200).json({
-            _id: user._id,
-            email: user.email,
-            token: generateToken(user._id),
-        });
+        res.cookie('token', generateToken(user._id), { httpOnly: false, maxAge: 18000000, sameSite: 'none', secure: true })
 
-
-
-
+        return res.status(200).json({ message: "Logged in successfully" })
 
     } catch (error) {
         console.log('login failed', error);

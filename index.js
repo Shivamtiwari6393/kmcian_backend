@@ -13,6 +13,7 @@ const requestRoute = require('./routes/requestRoute')
 const replyRoute = require('./routes/replyRoute')
 const commentRoute = require('./routes/commentRoute');
 const newPaperInfoRouter = require('./routes/newPaperInfoRouter');
+const cookieParser = require('cookie-parser');
 
 
 
@@ -25,6 +26,8 @@ const server = http.createServer(app);
 // setting-up socket
 
 socket(server)
+
+app.use(cookieParser())
 
 app.use(cors({
     origin: true,
