@@ -33,13 +33,13 @@ const postQuery = async (req, res) => {
     try {
         const { content, name } = JSON.parse(req.body)
 
-        if (!content || !name) return res.status(400).json({ message: "All fields are required" })
+        if (!content || !name) return res.status(400).json({ message: "All fields are required." })
         const newQuery = new Query({
             content: content,
             name: name
         })
         const storedQuery = await newQuery.save()
-        if (storedQuery) return res.status(201).json({ message: "Query uploaded successfully" })
+        if (storedQuery) return res.status(201).json({ message: "Thankyou! Query posted successfully." })
     } catch (error) {
 
         console.log("error in post query", error);
@@ -60,12 +60,12 @@ const deleteQuery = async (req, res) => {
     try {
         const deletedQuery = await Query.findByIdAndDelete(queryId)
 
-        if (!deletedQuery) return res.status(400).json({ "message": "Query not found" })
+        if (!deletedQuery) return res.status(400).json({ "message": "Sorry! Query not found." })
 
-            // deleting corresponding replies
+        // deleting corresponding replies
         await deleteManyReply(queryId)
 
-        return res.status(200).json({ "message": "Query deleted successfully" })
+        return res.status(200).json({ "message": "Success! Query deleted successfully." })
 
     } catch (error) {
         console.log("error in deleting query", error);
@@ -74,9 +74,5 @@ const deleteQuery = async (req, res) => {
     }
 
 }
-
-
-
-
 
 module.exports = { postQuery, getQuery, deleteQuery }

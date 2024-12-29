@@ -24,10 +24,15 @@ const registerUser = async (req, res) => {
 
     const { username, email, password } = req.body;
 
+
+    if (!username || !email || !password) {
+        return res.status(400).json({ "message": "All fields are required" })
+    }
+
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: 'Email already in use' });
+            return res.status(400).json({ message: 'Sorry! Email already in use.' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -40,7 +45,7 @@ const registerUser = async (req, res) => {
 
         await newUser.save();
 
-        res.status(201).json({ message: 'User registered successfully' });
+        return res.status(201).json({ message: 'Success! User registered successfully.' });
     } catch (error) {
         console.log('registration failed', error);
         res.status(500).json({ message: 'Server error' });
@@ -53,6 +58,11 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     const { email, password } = JSON.parse(req.body)
+
+    if (!email || !password) {
+        return res.status(400).json({ "message": "All fields are required" })
+    }
+
 
     // console.log(email, password, "email", "password");
     try {
@@ -87,6 +97,12 @@ const loginUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+        return res.status(400).json({ "message": "All fields are required" })
+    }
+
+
 
     try {
         const user = await User.findOne(email);

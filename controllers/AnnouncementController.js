@@ -10,7 +10,7 @@ const postAnnouncement = async (req, res) => {
 
         // if no content
 
-        if (!content) return res.status(400).json({ "message": "All fields is rquired" })
+        if (!content) return res.status(400).json({ "message": "All fields are required." })
 
         // create new announcement
         const newAnnouncement = new Announcement({
@@ -21,8 +21,7 @@ const postAnnouncement = async (req, res) => {
 
         await newAnnouncement.save()
 
-        // respond with success
-        res.status(201).json({ message: "Announcement uploaded successfully" })
+        res.status(201).json({ message: "Thankyou! Announcement posted successfully." })
     } catch (error) {
         console.log("error posting Announcement", error);
 
@@ -56,7 +55,7 @@ const getAnnouncement = async (req, res) => {
     } catch (error) {
         console.log("error fetching Announcement", error);
 
-        res.status(500).json({ 'message': "Internal Server Error" })
+        res.status(500).json({ 'message': "Internal server error" })
     }
 }
 
@@ -77,11 +76,11 @@ const deleteAnnouncement = async (req, res) => {
 
         // if announcemt not deleted 
 
-        if (!deletedAnnouncement) return res(400).json({ 'message': 'Announcement not found' })
+        if (!deletedAnnouncement) return res(400).json({ 'message': 'Sorry! Announcement not found.' })
 
         // if announcement deleted
 
-        return res.status(200).json({ 'message': "Announcement Deleted Successfully" })
+        return res.status(200).json({ 'message': "Announcement deleted successfully." })
 
     } catch (error) {
 

@@ -4,17 +4,22 @@ const mongoose = require('mongoose')
 
 
 
-// download paper 
+// ===============download paper================================== 
 
 const downloadPaper = async (req, res) => {
     const { course, paper, semester, branch, year, t } = req.query;
+
+    if (!course || !branch || !paper || !semester || !year) {
+        return res.status(400).json({ "message": "All fields are required" })
+    }
+
     try {
 
         const Paper = mongoose.model("paper", paperSchema, course);
         const reqPaper = await Paper.findOne({ paper: paper, semester: semester, branch: branch, year: year });
 
         if (!reqPaper) {
-            return res.status(404).json({ message: "Paper not found" });
+            return res.status(404).json({ message: "Sorry! Paper not found" });
         }
 
         res.setHeader('Content-Type', reqPaper.pdfContentType);
@@ -36,11 +41,16 @@ const downloadPaper = async (req, res) => {
 
 
 
-// get paper 
+//============= get paper ==========================
 
 
 const getPaper = async (req, res) => {
     const { course, branch, semester, year, downloadable } = req.body
+
+
+    if (!course || !branch || !semester || !year) {
+        return res.status(400).json({ "message": "All fields are required" })
+    }
     const requestedData = {
         course: course,
         downloadable: downloadable,
@@ -55,7 +65,7 @@ const getPaper = async (req, res) => {
         const reqPaper = await Paper.find({ ...requestedData }, { pdf: 0, pdfContentType: 0 }).sort({ paper: 1 })
 
         if (reqPaper.length === 0) {
-            return res.status(404).json({ message: "Sorry, Papers will be available soon" });
+            return res.status(404).json({ message: "Sorry! Papers will be available soon." });
         }
         res.status(200).json(reqPaper)
     }
@@ -69,7 +79,7 @@ const getPaper = async (req, res) => {
 
 
 
-// post paper 
+//================== post paper========================================= 
 
 
 const postPaper = async (req, res) => {
@@ -102,7 +112,7 @@ const postPaper = async (req, res) => {
         })
         // console.log("saved in database");
         await paperInfo.save()
-        res.status(201).json({ message: "File uploaded successfully" })
+        res.status(201).json({ message: "Thankyou! Paper uploaded successfully." })
     }
     catch (e) {
         console.log("error in uploading paper", e);
@@ -113,7 +123,7 @@ const postPaper = async (req, res) => {
 
 
 
-// update paper 
+//==================== update paper ================================
 
 
 
@@ -148,22 +158,22 @@ const updatePaper = async (req, res) => {
 
         if (!updatedPaper) {
 
-            return res.status(404).json({ message: "Paper not found" })
+            return res.status(404).json({ message: "Sorry! Paper not found" })
         }
 
-        res.status(200).json({ message: "Paper Updated" })
+        return res.status(200).json({ message: "Thankyou! Paper has been updated." })
 
 
     } catch (error) {
         console.log("error in updating paper", error);
-        res.status(500).json({ message: "Internal Server Error" })
+        return res.status(500).json({ message: "Internal Server Error" })
     }
 
 }
 
 
 
-// delete paper
+//====================== delete paper===================================
 
 
 
@@ -173,6 +183,12 @@ const deletePaper = async (req, res) => {
 
 
     try {
+
+        if (!id || !course) {
+            return res.status(400).json({ "message": "All fields are required" })
+        }
+
+
         const Paper = mongoose.model("paper", paperSchema, course);
 
         const deletedPaper = await Paper.findByIdAndDelete(id)
