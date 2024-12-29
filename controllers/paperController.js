@@ -185,7 +185,7 @@ const deletePaper = async (req, res) => {
     try {
 
         if (!id || !course) {
-            return res.status(400).json({ "message": "All fields are required" })
+            return res.status(400).json({ "message": "All fields are required." })
         }
 
 
@@ -194,10 +194,10 @@ const deletePaper = async (req, res) => {
         const deletedPaper = await Paper.findByIdAndDelete(id)
 
         if (!deletedPaper) {
-            return res.status(404).json({ message: "Paper not found" })
+            return res.status(404).json({ message: "Sorry! Paper not found." })
         }
 
-        return res.status(200).json({ message: "Paper deleted successfully" })
+        return res.status(200).json({ message: "Paper deleted successfully." })
 
 
     } catch (e) {

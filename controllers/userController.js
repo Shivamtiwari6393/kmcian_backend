@@ -78,7 +78,7 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid password' });
         }
 
-        res.cookie('token', generateToken(user._id), { httpOnly: false, maxAge: 18000000, sameSite: 'none', secure: true })
+        res.cookie('token', generateToken(user._id), { httpOnly: false, maxAge: 3500000, sameSite: 'none', secure: true })
 
         return res.status(200).json({ message: "Logged in successfully" })
 
