@@ -4,6 +4,7 @@ const log = new mongoose.Schema({
     method: String,
     url: String,
     ip: String,
+    user: String
 }, { timestamps: true })
 
 

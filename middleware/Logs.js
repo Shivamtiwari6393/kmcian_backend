@@ -5,11 +5,11 @@ const Logs = async (req, res, next) => {
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
     // Create a new log object
-
+     
     const newRequest = new Log({
       method: req.method,
       url: req.originalUrl,
-      ip: clientIp
+      ip: clientIp,
     });
 
     // Save the request to the database
