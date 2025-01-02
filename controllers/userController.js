@@ -22,7 +22,7 @@ const generateToken = (id) => {
 
 const registerUser = async (req, res) => {
 
-    const { username, email, password } = req.body;
+    const { username, email, password } = req.body
 
 
     if (!username || !email || !password) {
@@ -57,7 +57,7 @@ const registerUser = async (req, res) => {
 
 
 const loginUser = async (req, res) => {
-    const { email, password } = JSON.parse(req.body)
+    const { email, password } = req.body
 
     if (!email || !password) {
         return res.status(400).json({ "message": "All fields are required" })
@@ -95,7 +95,7 @@ const loginUser = async (req, res) => {
 
 
 const updateUser = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password } = req.body
 
     if (!username || !email || !password) {
         return res.status(400).json({ "message": "All fields are required" })

@@ -31,7 +31,7 @@ const getQuery = async (req, res) => {
 const postQuery = async (req, res) => {
 
     try {
-        const { content, name } = JSON.parse(req.body)
+        const { content, name } = req.body
 
         if (!content || !name) return res.status(400).json({ message: "All fields are required." })
         const newQuery = new Query({
@@ -54,7 +54,7 @@ const postQuery = async (req, res) => {
 
 const deleteQuery = async (req, res) => {
 
-    const { queryId } = JSON.parse(req.body)
+    const { queryId } = req.body
     if (!queryId) return res.status(400).json({ "message": "ID is required" })
 
     try {

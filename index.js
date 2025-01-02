@@ -14,7 +14,7 @@ const replyRoute = require('./routes/replyRoute')
 const commentRoute = require('./routes/commentRoute');
 const newPaperInfoRouter = require('./routes/newPaperInfoRouter');
 const cookieParser = require('cookie-parser');
-
+const storageRoute = require('./routes/storageRoute')
 
 
 dotenv.config();
@@ -26,8 +26,6 @@ const server = http.createServer(app);
 // setting-up socket
 
 socket(server)
-
-app.use(cookieParser())
 
 app.use(cors({
     origin: true,
@@ -49,6 +47,7 @@ app.use("/api/reply", replyRoute)
 app.use("/api/request", requestRoute)
 app.use("/api/comment", commentRoute)
 app.use("/api/newPaperInfo", newPaperInfoRouter)
+app.use('/api/storage', storageRoute)
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {

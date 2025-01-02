@@ -6,7 +6,7 @@ const Announcement = require('../models/AnnouncementModel')
 const postAnnouncement = async (req, res) => {
 
     try {
-        const content = JSON.parse(req.body)
+        const content = req.body
 
         // if no content
 
@@ -68,7 +68,7 @@ const deleteAnnouncement = async (req, res) => {
 
     try {
 
-        const { id } = JSON.parse(req.body)
+        const { id } = req.body
 
         if (!id) return res.status(400).json({ "message": "ID is required" })
 

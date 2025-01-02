@@ -2,7 +2,7 @@ const Comment = require("../models/CommentModel")
 
 const postComment = async (req, res) => {
 
-    const { comment } = JSON.parse(req.body)
+    const { comment } = req.body
     if (!comment) {
         return res.status(400).json({ "message": "All fields are required" })
     }
