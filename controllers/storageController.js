@@ -1,15 +1,22 @@
 const { Storage } = require('@google-cloud/storage')
 const path = require('path')
+const fs = require('fs');
+
 
 const getSignedUrl = async (req, res) => {
 
 
     const { fileName, fileType } = req.query
 
-    const storage = new Storage({
-        keyFilename: path.join(__dirname, 'gold-setup-446607-t3-aba9a262a47e.json')
-    })
+    if (!fileName || !fileType) {
+        return res.status(400).json({ "message": 'Missing required query parameters: fileName or fileType' });
+    }
 
+
+    const credentialsPath = '/tmp/service-account-key.json';
+    fs.writeFileSync(credentialsPath, process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+
+    const storage = new Storage({ keyFilename: credentialsPath });
     const bucketName = 'shivam-6393'
 
 
@@ -28,10 +35,15 @@ const getSignedUrl = async (req, res) => {
         }
 
         const url = await file.getSignedUrl(options)
+        fs.unlinkSync(credentialsPath);
+
         return res.status(200).json({ url })
     } catch (error) {
 
         console.log('Error generating signed url', error);
+        if (fs.existsSync(credentialsPath)) {
+            fs.unlinkSync(credentialsPath);
+        }
         return res.status(500).send('Internal server error');
 
     }
