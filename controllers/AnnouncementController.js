@@ -1,4 +1,3 @@
-const { json } = require('express')
 const Announcement = require('../models/AnnouncementModel')
 
 //=========== Announcement Post Request==============

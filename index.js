@@ -15,6 +15,7 @@ const commentRoute = require('./routes/commentRoute');
 const newPaperInfoRouter = require('./routes/newPaperInfoRouter');
 const cookieParser = require('cookie-parser');
 const storageRoute = require('./routes/storageRoute')
+const flagRoute = require('./routes/flagRoute')
 
 
 dotenv.config();
@@ -47,6 +48,7 @@ app.use("/api/reply", replyRoute)
 app.use("/api/request", requestRoute)
 app.use("/api/comment", commentRoute)
 app.use("/api/newPaperInfo", newPaperInfoRouter)
+app.use('/api/flag', flagRoute)
 app.use('/api/storage', storageRoute)
 
 const PORT = process.env.PORT || 8000;
