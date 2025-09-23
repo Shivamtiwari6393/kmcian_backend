@@ -32,7 +32,7 @@ const registerUser = async (req, res) => {
     try {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: 'Sorry! Email already in use.' });
+            return res.status(409).json({ message: 'Sorry! Email already in use.' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -69,13 +69,13 @@ const loginUser = async (req, res) => {
 
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: 'Invalid email' });
+            return res.status(401).json({ message: 'Invalid email' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid password' });
+            return res.status(401).json({ message: 'Invalid password' });
         }
         const token = generateToken(user._id)
 
@@ -101,8 +101,6 @@ const updateUser = async (req, res) => {
         return res.status(400).json({ "message": "All fields are required" })
     }
 
-
-
     try {
         const user = await User.findOne(email);
 
@@ -118,7 +116,7 @@ const updateUser = async (req, res) => {
         }
 
         await user.save();
-        res.json(user);
+        res.status(200).json({ message: "Updated successfully" });
     } catch (error) {
         console.log('user updation failed', error);
 

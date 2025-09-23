@@ -40,6 +40,9 @@ const paperSchema = new mongoose.Schema({
     },
     year: {
         type: String
+    },
+    uploader: {
+        type: String
     }
 
 }, { timestamps: true })

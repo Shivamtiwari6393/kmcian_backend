@@ -136,7 +136,7 @@ const updatePaper = async (req, res) => {
 
         // fields verification
 
-        if (!data.course || !data.branch || !data.paper || !data.semester || !data.year || !data.name || !data.downloadable) {
+        if (!id || !data.course || !data.branch || !data.paper || !data.semester || !data.year || !data.name || !data.downloadable) {
             return res.status(400).json({ "message": "All fields are required" })
         }
 

@@ -5,7 +5,7 @@ const socket = (server) => {
     const io = new Server(server, {
         cors: {
             origin: true,
-            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            methods: 'GET,POST',
             credentials: true,
         }
     });
@@ -15,10 +15,9 @@ const socket = (server) => {
 
         socket.on('chatMessage', (msg) => {
             console.log(msg);
-            // postChat(msg)
             io.emit('chatMessage', msg);
             console.log("send", msg);
-            
+
         });
 
         socket.on('disconnect', () => {
