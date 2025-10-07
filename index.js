@@ -29,7 +29,7 @@ const server = http.createServer(app);
 socket(server)
 
 app.use(cors({
-    origin: ["http://localhost:5173","https://kmcain.netlify.app", "https://kmcian.vercel.app"],
+    origin: ["http://localhost:5173","https://kmcian.netlify.app", "https://kmcian.vercel.app"],
     methods: 'GET,HEAD,PUT,POST,DELETE',
     credentials: true,
 }));
