@@ -39,7 +39,7 @@ const postQuery = async (req, res) => {
             name: name
         })
         const storedQuery = await newQuery.save()
-        if (storedQuery) return res.status(201).json({ message: "Thankyou! Query posted successfully." })
+        if (storedQuery) return res.status(201).json({ message: "Thankyou! Query posted successfully.", data : storedQuery })
     } catch (error) {
 
         console.log("error in post query", error);

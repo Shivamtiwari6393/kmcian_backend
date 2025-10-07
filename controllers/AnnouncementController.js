@@ -17,10 +17,8 @@ const postAnnouncement = async (req, res) => {
         })
 
         // save announcement
-
-        await newAnnouncement.save()
-
-        res.status(201).json({ message: "Thankyou! Announcement posted successfully." })
+        const savedAnnouncment = await newAnnouncement.save()
+        return res.status(201).json({ message: "Thankyou! Announcement posted successfully.", data: savedAnnouncment })
     } catch (error) {
         console.log("error posting Announcement", error);
 
