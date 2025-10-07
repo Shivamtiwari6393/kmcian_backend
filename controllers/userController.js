@@ -10,7 +10,7 @@ const { path } = require("../models/paperSchema");
 
 
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
+    return jwt.sign({ id }, process.env.JWT, {
         expiresIn: '1h',
     });
 };
