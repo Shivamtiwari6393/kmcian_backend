@@ -39,7 +39,9 @@ app.use(express.urlencoded({ limit: '2mb', extended: true }));
 app.use(express.text());
 
 app.use(Logs);
-
+app.get("/", (req, res)=>{
+    res.json({message: "This is Kmcian Backend"})
+})
 app.use('/api/user', userRoute);
 app.use('/api/paper', paperRouter);
 app.use('/api/announcement', announcementRoute)
