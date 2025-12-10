@@ -22,14 +22,14 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 // setting-up socket
 
-socket(server)
+// socket(server)
 
 app.use(cors({
-    origin: ["http://localhost:5173","https://kmcian.netlify.app", "https://kmcian.vercel.app"],
+    origin: ["http://localhost:5173", "https://kmcian.netlify.app", "https://kmcian.vercel.app"],
     methods: 'GET,HEAD,PUT,POST,DELETE',
     credentials: true,
 }));
@@ -39,8 +39,8 @@ app.use(express.urlencoded({ limit: '2mb', extended: true }));
 app.use(express.text());
 
 app.use(Logs);
-app.get("/", (req, res)=>{
-    res.json({message: "This is Kmcian Backend"})
+app.get("/", (req, res) => {
+    res.json({ message: "This is Kmcian Backend" })
 })
 app.use('/api/user', userRoute);
 app.use('/api/paper', paperRouter);
@@ -54,6 +54,6 @@ app.use('/api/flag', flagRoute)
 app.use('/api/storage', storageRoute)
 
 const PORT = process.env.PORT || 8000;
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
 });
