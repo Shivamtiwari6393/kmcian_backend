@@ -1,12 +1,11 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
 const paperRouter = require('./routes/paperRoute');
 const userRoute = require('./routes/userRoute');
 const connectDB = require('./config/db');
-const dotenv = require('dotenv');
 const Logs = require('./middleware/Logs');
 const http = require('http');
-const socket = require("./config/socket");
 const announcementRoute = require('./routes/AnnouncementRoute');
 const queryRoute = require('./routes/queryRoute')
 const requestRoute = require('./routes/requestRoute')
@@ -14,7 +13,7 @@ const replyRoute = require('./routes/replyRoute')
 const commentRoute = require('./routes/commentRoute');
 const newPaperInfoRouter = require('./routes/newPaperInfoRouter');
 const cookieParser = require('cookie-parser');
-const storageRoute = require('./routes/storageRoute')
+const videoRoute = require('./routes/videoRoute')
 const flagRoute = require('./routes/flagRoute')
 
 
@@ -22,14 +21,9 @@ dotenv.config();
 connectDB();
 
 const app = express();
-// const server = http.createServer(app);
-
-// setting-up socket
-
-// socket(server)
 
 app.use(cors({
-    origin: ["http://localhost:5173", "https://kmcian.netlify.app", "https://kmcian.vercel.app"],
+    origin: "*",
     methods: 'GET,HEAD,PUT,POST,DELETE',
     credentials: true,
 }));
@@ -37,8 +31,8 @@ app.use(cors({
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ limit: '2mb', extended: true }));
 app.use(express.text());
-
 app.use(Logs);
+
 app.get("/", (req, res) => {
     res.json({ message: "This is Kmcian Backend" })
 })
@@ -51,7 +45,7 @@ app.use("/api/request", requestRoute)
 app.use("/api/comment", commentRoute)
 app.use("/api/newPaperInfo", newPaperInfoRouter)
 app.use('/api/flag', flagRoute)
-app.use('/api/storage', storageRoute)
+app.use('/api/storage', videoRoute)
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
