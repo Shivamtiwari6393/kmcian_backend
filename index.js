@@ -23,7 +23,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-    origin: "*",
+    origin: ["https://kmcian.netlify.app", "https://kmcian.vercel.app"],
     methods: 'GET,HEAD,PUT,POST,DELETE',
     credentials: true,
 }));
