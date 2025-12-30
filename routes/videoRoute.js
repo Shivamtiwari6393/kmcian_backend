@@ -3,6 +3,7 @@ const protect = require("../middleware/auth");
 const express = require('express');
 const router = express.Router();
 const cloudinary = require("../config/cloudinary.js");
+const { deleteShort } = require('../controllers/ShortController.js');
 
 
 router.get("/signupload", async (req, res) => {
@@ -78,5 +79,8 @@ router.post("/uploadmetadata", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+router.delete("/delete/:id", deleteShort)
 
 module.exports = router;
