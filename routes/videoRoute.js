@@ -81,6 +81,6 @@ router.post("/uploadmetadata", async (req, res) => {
 });
 
 
-router.delete("/delete/:id", protect, deleteShort)
+router.delete("/delete/:id",protect, deleteShort)
 
 module.exports = router;
