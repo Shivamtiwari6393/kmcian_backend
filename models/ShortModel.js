@@ -10,6 +10,7 @@ const shortSchema = new mongoose.Schema({
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     views: { type: Number, default: 0 },
     size: String,
+    show: Boolean
 }, { timestamps: true });
 
 module.exports = mongoose.model("Short", shortSchema);
