@@ -9,8 +9,8 @@ const getMetaData = async (req, res) => {
         const cursor = req.query.cursor;
 
         const query = cursor
-            ? { createdAt: { $lt: cursor }, show: 1 }
-            : {show : 1};
+            ? { createdAt: { $lt: cursor }, show: true }
+            : {show : true};
 
         const shorts = await Short.find(query)
             .sort({ createdAt: -1 })
