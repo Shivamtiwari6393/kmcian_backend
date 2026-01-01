@@ -2,7 +2,7 @@ const Short = require('../models/ShortModel');
 const protect = require("../middleware/auth");
 const express = require('express');
 const router = express.Router();
-const { deleteShort, postMetadata, getMetaData, getSignedUrl } = require('../controllers/ShortController.js');
+const { deleteShort, postMetadata, getMetaData, getSignedUrl, getData } = require('../controllers/ShortController.js');
 
 
 //========================== signed url===============================
@@ -19,6 +19,12 @@ router.get("/", getMetaData);
 
 
 // ================upload metadata==============================
+
+
+
+router.get("/c",protect, getData);
+
+
 
 router.post("/uploadmetadata", postMetadata);
 

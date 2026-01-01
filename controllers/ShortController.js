@@ -3,24 +3,37 @@ const Short = require("../models/ShortModel.js");
 
 // ===================get metadata======================
 
+const getData = async (req, res) => {
+    try {
+        const limit = 5;
+        const cursor = req.query.cursor;
+        const query = cursor
+            ? { createdAt: { $lt: cursor }, show: false }
+            : { show: false };
+
+        const shorts = await Short.find(query)
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .populate("uploadedBy", "name");
+
+        res.status(200).json({
+            shorts,
+            nextCursor: shorts.length
+                ? shorts[shorts.length - 1].createdAt
+                : null,
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+
+}
 const getMetaData = async (req, res) => {
     try {
         const limit = 5;
         const cursor = req.query.cursor;
-        const c = req.query.c;
-        let query = null
-        if (c === "abzlkmn") {
-            query = cursor
-                ? { createdAt: { $lt: cursor } }
-                : {};
-        }
-        else {
-
-            query = cursor
-                ? { createdAt: { $lt: cursor }, show: true }
-                : { show: true };
-
-        }
+        const query = cursor
+            ? { createdAt: { $lt: cursor }, show: true }
+            : { show: true };
 
         const shorts = await Short.find(query)
             .sort({ createdAt: -1 })
@@ -40,7 +53,6 @@ const getMetaData = async (req, res) => {
 
 
 // ======================store metadata========================== 
-
 
 
 const postMetadata = async (req, res) => {
@@ -126,6 +138,6 @@ const getSignedUrl = async (req, res) => {
 }
 
 
-module.exports = { getSignedUrl, getMetaData, deleteShort, postMetadata }
+module.exports = { getSignedUrl, getMetaData, deleteShort, postMetadata, getData }
 
 

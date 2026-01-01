@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const logInInfoModel = require('../models/logInInfo');
 
 const protect = async (req, res, next) => {
   let token;
@@ -12,9 +13,18 @@ const protect = async (req, res, next) => {
         return res.status(401).json({ message: 'Not authorized,Please Login' });
       }
       const decoded = jwt.verify(token, process.env.JWT);
-      console.log(decoded);
+      // console.log(decoded);
       req.user = await User.findById(decoded.id).select('-password');
-      console.log(req.user, "authenticated");
+      // console.log(req.user, "authenticated");
+      const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+      const newUser = logInInfoModel({
+        username: req.user.username,
+        email: req.user.email,
+        ip: clientIp,
+      })
+
+      await newUser.save()
       next();
     } catch (error) {
       console.error('Token verification failed:', error.message);
