@@ -9,7 +9,7 @@ const getMetaData = async (req, res) => {
         const cursor = req.query.cursor;
         const c = req.query.c;
         let query = null
-        if (c === "abz") {
+        if (c === "abzlkmn") {
             query = cursor
                 ? { createdAt: { $lt: cursor } }
                 : {};
