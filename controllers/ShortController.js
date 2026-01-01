@@ -7,10 +7,20 @@ const getMetaData = async (req, res) => {
     try {
         const limit = 5;
         const cursor = req.query.cursor;
+        const c = req.query.c;
+        let query = null
+        if (c === "abz") {
+            query = cursor
+                ? { createdAt: { $lt: cursor } }
+                : {};
+        }
+        else {
 
-        const query = cursor
-            ? { createdAt: { $lt: cursor }, show: true }
-            : {show : true};
+            query = cursor
+                ? { createdAt: { $lt: cursor }, show: true }
+                : { show: true };
+
+        }
 
         const shorts = await Short.find(query)
             .sort({ createdAt: -1 })
@@ -40,7 +50,7 @@ const postMetadata = async (req, res) => {
             publicId: req.body.publicId,
             // caption: req.body.caption,
             size: (req.body.size / (1024 * 1024)).toFixed(2),
-            show : req.body.show
+            show: req.body.show
         });
 
         res.status(201).json({
