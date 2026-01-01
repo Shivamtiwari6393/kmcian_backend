@@ -40,11 +40,11 @@ const postMetadata = async (req, res) => {
             publicId: req.body.publicId,
             // caption: req.body.caption,
             size: (req.body.size / (1024 * 1024)).toFixed(2),
-            show : 0
+            show : req.body.show
         });
 
         res.status(201).json({
-            message: "upload sccessfull",
+            message: "uploaded sccessfully",
             short,
         });
     } catch (error) {
