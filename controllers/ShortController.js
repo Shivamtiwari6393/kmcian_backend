@@ -98,7 +98,7 @@ const deleteShort = async (req, res) => {
             if (del.result === "ok") return res.json({ message: "Short deleted successfully" });
             return res.status(404).json({ message: del.result })
         }
-        await short.deleteOne();
+        await short.updateOne({ show: false });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server error" });

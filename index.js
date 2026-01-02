@@ -45,7 +45,7 @@ app.use("/api/request", requestRoute)
 app.use("/api/comment", commentRoute)
 app.use("/api/newPaperInfo", newPaperInfoRouter)
 app.use('/api/flag', flagRoute)
-app.use('/api/storage', videoRoute)
+app.use('/api/shorts', videoRoute)
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
