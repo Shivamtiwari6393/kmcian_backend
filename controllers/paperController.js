@@ -179,6 +179,11 @@ const updatePaper = async (req, res) => {
 
 
 const deletePaper = async (req, res) => {
+
+
+    if (req.user.email != "shivamtiwari@12") return  res.status(401).json({ message: 'You are not authorized,Please Login with admin email' });
+        
+
     const { id, course } = req.params
 
 
