@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const logInInfo = new mongoose.Schema({
-    ip: String,
+    username: String,
     email: String,
-    useName: String
+    ip: String,
 }, { timestamps: true })
 
 

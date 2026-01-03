@@ -13,7 +13,7 @@ const replyRoute = require('./routes/replyRoute')
 const commentRoute = require('./routes/commentRoute');
 const newPaperInfoRouter = require('./routes/newPaperInfoRouter');
 const cookieParser = require('cookie-parser');
-const videoRoute = require('./routes/videoRoute')
+const shortRoute = require('./routes/shortRoute')
 const flagRoute = require('./routes/flagRoute')
 
 
@@ -45,7 +45,7 @@ app.use("/api/request", requestRoute)
 app.use("/api/comment", commentRoute)
 app.use("/api/newPaperInfo", newPaperInfoRouter)
 app.use('/api/flag', flagRoute)
-app.use('/api/shorts', videoRoute)
+app.use('/api/shorts', shortRoute)
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {

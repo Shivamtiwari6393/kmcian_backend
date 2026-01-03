@@ -4,8 +4,6 @@ const logInInfoModel = require('../models/logInInfo');
 
 const protect = async (req, res, next) => {
   let token;
-
-  // console.log("insided auth");
   if (req.headers.authorization) {
     try {
       token = req.headers.authorization.split(' ')[1]
@@ -13,9 +11,7 @@ const protect = async (req, res, next) => {
         return res.status(401).json({ message: 'Not authorized,Please Login' });
       }
       const decoded = jwt.verify(token, process.env.JWT);
-      // console.log(decoded);
       req.user = await User.findById(decoded.id).select('-password');
-      // console.log(req.user, "authenticated");
       const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
       const newUser = logInInfoModel({
@@ -32,7 +28,7 @@ const protect = async (req, res, next) => {
     }
   }
   else {
-    return res.status(401).json({ message: 'Token verification failed, Please Login' });
+    return res.status(401).json({ message: 'Auth Header not available' });
 
   }
 
