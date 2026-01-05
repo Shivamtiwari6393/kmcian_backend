@@ -84,7 +84,6 @@ const getPaper = async (req, res) => {
 
 const postPaper = async (req, res) => {
 
-    console.log("Post request from -----", req.rawHeaders[21])
     const { course, branch, paper, semester, name, year } = req.body
 
 
@@ -128,6 +127,8 @@ const postPaper = async (req, res) => {
 
 
 const updatePaper = async (req, res) => {
+    if (req.user.role != "superadmin") return res.status(401).json({ message: 'You are not authorized,Please Login with admin email' });
+
 
     try {
         const { id } = req.params
@@ -181,7 +182,7 @@ const updatePaper = async (req, res) => {
 const deletePaper = async (req, res) => {
 
 
-    if (req.user.email != "shivamtiwari@12") return  res.status(401).json({ message: 'You are not authorized,Please Login with admin email' });
+    if (req.user.role != "superadmin") return  res.status(401).json({ message: 'You are not authorized,Please Login with admin email' });
         
 
     const { id, course } = req.params

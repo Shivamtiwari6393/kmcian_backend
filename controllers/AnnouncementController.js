@@ -4,6 +4,7 @@ const Announcement = require('../models/AnnouncementModel')
 
 const postAnnouncement = async (req, res) => {
 
+    if (req.user.role != "superadmin") return res.status(401).json({ message: 'You are not authorized,Please Login with admin email' });
     try {
         const content = req.body
 

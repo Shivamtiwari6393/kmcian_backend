@@ -22,7 +22,7 @@ const generateToken = (id) => {
 
 const registerUser = async (req, res) => {
 
-    const { username, email, password } = req.body
+    const { username, email, password,role } = req.body
 
 
     if (!username || !email || !password) {
@@ -40,6 +40,7 @@ const registerUser = async (req, res) => {
         const newUser = new User({
             username,
             email,
+            role,
             password: hashedPassword,
         });
 
@@ -79,7 +80,7 @@ const loginUser = async (req, res) => {
         }
         const token = generateToken(user._id)
 
-        return res.status(200).json({ message: `Bonjour, ${user.username}!`, token: token, userId : user._id })
+        return res.status(200).json({ message: `Bonjour, ${user.username}!`, token: token, userId: user._id })
 
     } catch (error) {
         console.log('login failed', error);
@@ -95,6 +96,7 @@ const loginUser = async (req, res) => {
 
 
 const updateUser = async (req, res) => {
+
     const { username, email, password } = req.body
 
     if (!username || !email || !password) {
