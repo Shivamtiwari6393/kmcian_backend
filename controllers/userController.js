@@ -75,7 +75,8 @@ const loginUser = async (req, res) => {
       message: `Bonjour, ${user.username}!`,
       token: token,
       userId: user._id,
-      role : user.role
+      role: user.role,
+      username: user.username,
     });
   } catch (error) {
     console.log("login failed", error);
@@ -116,4 +117,18 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, updateUser };
+const userData = async (req, res) => {
+  try {
+    const userId = req.query?.userId;
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    return res
+      .status(200)
+      .json({ username: user.username, papers: user.papers });
+  } catch (error) {
+    console.log("err in userData", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { registerUser, loginUser, updateUser, userData };
