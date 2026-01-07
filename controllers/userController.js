@@ -1,12 +1,11 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { path } = require("../models/paperSchema");
 // ===============generate taken====================
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT, {
-    expiresIn: "1h",
+    expiresIn: "2h",
   });
 };
 

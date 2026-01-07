@@ -11,7 +11,7 @@ const Logs = async (req, res, next) => {
 
     await newRequest.save();
 
-    console.log('Request saved to database', newRequest);
+    // console.log('Request saved to database', newRequest);
   } catch (error) {
     console.error('Error saving request to database:', error);
   }

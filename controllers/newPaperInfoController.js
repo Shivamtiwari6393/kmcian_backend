@@ -4,7 +4,7 @@ const newPaper = require("../models/newPaperModel")
 const getNewPaperInfo = async (req, res) => {
 
     try {
-        const newPapers = await newPaper.find()
+        const newPapers = await newPaper.find().short({createdAt: -1})
         res.status(200).json(newPapers)
     } catch (error) {
 

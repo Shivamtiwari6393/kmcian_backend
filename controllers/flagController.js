@@ -38,14 +38,12 @@ const postFlag = async (req, res) => {
 
 
 const getFlag = async (req, res) => {
-
   try {
-
     const flags = await Flag.find()
     return res.status(200).json(flags)
     
   } catch (error) {
-    console.log(error, "errro in get flag");
+    console.log(error, "err in get flag");
     return res.status(500).json({ "message": "Internal server error" })
 
   }
