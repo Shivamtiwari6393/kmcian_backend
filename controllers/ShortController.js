@@ -9,11 +9,11 @@ const getProtectedMetaData = async (req, res) => {
     const cursor = req.query.cursor;
     let query = null;
 
-    if (req.user.role === "admin") {
+    if (req.user?.role === "admin") {
       query = cursor ? { createdAt: { $lt: cursor }, show: 2 } : { show: 2 };
     }
 
-    if (req.user.role === "superadmin") {
+    if (req.user?.role === "superadmin") {
       query = cursor ? { createdAt: { $lt: cursor } } : {};
     }
 
