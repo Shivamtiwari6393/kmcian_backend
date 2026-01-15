@@ -1,93 +1,99 @@
-const Announcement = require('../models/AnnouncementModel')
+const Announcement = require("../models/AnnouncementModel");
 
 //=========== Announcement Post Request==============
 
 const postAnnouncement = async (req, res) => {
+  if (req.user.role != "superadmin")
+    return res
+      .status(401)
+      .json({
+        message: "You are not authorized,Please Login with admin email",
+      });
+  try {
+    const content = req.body;
 
-    if (req.user.role != "superadmin") return res.status(401).json({ message: 'You are not authorized,Please Login with admin email' });
-    try {
-        const content = req.body
+    // if no content
 
-        // if no content
+    if (!content)
+      return res.status(400).json({ message: "All fields are required." });
 
-        if (!content) return res.status(400).json({ "message": "All fields are required." })
+    // create new announcement
+    const newAnnouncement = new Announcement({
+      content: content,
+    });
 
-        // create new announcement
-        const newAnnouncement = new Announcement({
-            content: content
-        })
+    // save announcement
+    const savedAnnouncment = await newAnnouncement.save();
+    return res
+      .status(201)
+      .json({
+        message: "Thankyou! Announcement posted successfully.",
+        data: savedAnnouncment,
+      });
+  } catch (error) {
+    console.log("error posting Announcement", error);
 
-        // save announcement
-        const savedAnnouncment = await newAnnouncement.save()
-        return res.status(201).json({ message: "Thankyou! Announcement posted successfully.", data: savedAnnouncment })
-    } catch (error) {
-        console.log("error posting Announcement", error);
-
-        return res.status(500).json({ 'message': 'Internal server error' })
-
-    }
-}
-
-
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 // ====================fetch======================
 
-
 const getAnnouncement = async (req, res) => {
+  try {
+    const currentPage = Number(req.params.currentPage) || 1;
 
+    const skip = (currentPage - 1) * 5;
 
-    try {
-        const currentPage = Number(req.params.currentPage) || 1
+    const announcements = await Announcement.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(5);
 
-        const skip = (currentPage - 1) * 5
+    const total = await Announcement.countDocuments();
 
-        const announcements = await Announcement.find().sort({ 'createdAt': -1 }).skip(skip).limit(5)
+    // total page
 
-        const total = await Announcement.countDocuments()
+    totalPage = Math.ceil(total / 5);
 
-        // total page
+    res.status(200).json({ announcements, currentPage, totalPage });
+  } catch (error) {
+    console.log("error fetching Announcement", error);
 
-        totalPage = Math.ceil(total / 5)
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
-        res.status(200).json({ announcements, currentPage, totalPage })
-    } catch (error) {
-        console.log("error fetching Announcement", error);
-
-        res.status(500).json({ 'message': "Internal server error" })
-    }
-}
-
-
-
-//============== delete Announcement==================== 
-
+//============== delete Announcement====================
 
 const deleteAnnouncement = async (req, res) => {
+  if (req.user.role != "superadmin")
+    return res.status(401).json({
+      message: "You are not authorized,Please Login with admin email",
+    });
 
-    try {
+  try {
+    const { id } = req.body;
 
-        const { id } = req.body
+    if (!id) return res.status(400).json({ message: "ID is required" });
 
-        if (!id) return res.status(400).json({ "message": "ID is required" })
+    const deletedAnnouncement = await Announcement.findByIdAndDelete(id);
 
-        const deletedAnnouncement = await Announcement.findByIdAndDelete(id)
+    // if announcemt not deleted
 
-        // if announcemt not deleted 
+    if (!deletedAnnouncement)
+      return res(400).json({ message: "Sorry! Announcement not found." });
 
-        if (!deletedAnnouncement) return res(400).json({ 'message': 'Sorry! Announcement not found.' })
+    // if announcement deleted
 
-        // if announcement deleted
+    return res
+      .status(200)
+      .json({ message: "Announcement deleted successfully." });
+  } catch (error) {
+    console.log("error deleting Announcement", error);
 
-        return res.status(200).json({ 'message': "Announcement deleted successfully." })
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
-    } catch (error) {
-
-        console.log("error deleting Announcement", error);
-
-        return res.status(500).json({ message: "Internal Server Error" })
-
-    }
-
-}
-
-module.exports = { postAnnouncement, getAnnouncement, deleteAnnouncement }
+module.exports = { postAnnouncement, getAnnouncement, deleteAnnouncement };
