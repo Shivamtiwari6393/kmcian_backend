@@ -79,11 +79,9 @@ const postMetadata = async (req, res) => {
 
     res.status(201).json({
       message: "uploaded sccessfully",
-      short,
     });
   } catch (error) {
     console.log("error in storing metadata", error.message);
-
     res.status(500).json({ message: error.message });
   }
 };
