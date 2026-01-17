@@ -8,8 +8,8 @@ const {getPaper, postPaper, updatePaper, deletePaper, downloadPaper} = require("
 const upload = multer({ storage: multer.memoryStorage() })
 
 
-router.post(`/`, getPaper)
-router.post('/post', upload.single('pdf'), postPaper)
+router.post(`/v1`, getPaper)
+router.post('/v2', upload.single('pdf'), postPaper)
 router.get('/download',downloadPaper);
 router.put('/update/:id',protect,upload.single('pdf'),updatePaper)
 router.delete('/delete/:course/:id',protect,deletePaper)

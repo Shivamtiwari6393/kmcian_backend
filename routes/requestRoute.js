@@ -3,7 +3,7 @@ const router = express.Router()
 const { getCount, getLogs} = require("../controllers/requestController")
 const protect = require('../middleware/auth')
 
-router.get('/',getCount)
-router.get('/logs/:name', getLogs)
+router.get('/v1',getCount)
+router.get('/v2/logs/:name', getLogs)
 
 module.exports =  router

@@ -7,20 +7,20 @@ const { deleteShort, postMetadata, getMetaData, getSignedUrl, getProtectedMetaDa
 //==========================get signed url===============================
 
 
-router.get("/signupload", getSignedUrl);
+router.get("/v1/signupload", getSignedUrl);
 
 
 //========================= fetch short metadata===========================
 
 
-router.get("/", getMetaData);
+router.get("/v2", getMetaData);
 
 
 
 //========== get protected short metadata=====================
 
 
-router.get("/c",protect, getProtectedMetaData);
+router.get("/v3",protect, getProtectedMetaData);
 
 // ================upload metadata==============================
 
