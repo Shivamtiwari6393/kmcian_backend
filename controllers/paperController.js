@@ -1,6 +1,5 @@
 const newPaperInfo = require("../models/newPaperModel");
-const paperSchema = require("../models/paperSchema");
-const mongoose = require("mongoose");
+const Paper = require("../models/paperModel");
 const userModel = require("../models/userModel");
 
 // ===============download paper==================================
@@ -13,7 +12,7 @@ const downloadPaper = async (req, res) => {
   }
 
   try {
-    const Paper = mongoose.model("paper", paperSchema, course);
+    // const Paper = mongoose.model("paper", paperSchema, course);
     const reqPaper = await Paper.findOne({
       paper: paper,
       semester: semester,
@@ -49,7 +48,6 @@ const downloadPaper = async (req, res) => {
 
 const getPaper = async (req, res) => {
   const { course, branch, semester, year, downloadable } = req.body;
-
   if (!course || !branch || !semester || !year) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -63,7 +61,7 @@ const getPaper = async (req, res) => {
   if (branch !== "All") requestedData.branch = branch;
 
   try {
-    const Paper = mongoose.model("paper", paperSchema, course);
+    // const Paper = mongoose.model("paper", paperSchema);
     const reqPaper = await Paper.find(
       { ...requestedData },
       { pdf: 0, pdfContentType: 0 }
@@ -99,8 +97,6 @@ const postPaper = async (req, res) => {
   const pdf = req.file.buffer;
   const pdfContentType = req.file.mimetype;
   try {
-    // dynamic collection
-    const Paper = mongoose.model("paper", paperSchema, course);
     const newPaper = new Paper({
       course,
       branch,
@@ -113,7 +109,7 @@ const postPaper = async (req, res) => {
       year,
     });
 
-    await newPaper.save();
+    const meta = await newPaper.save();
 
     const paperInfo = new newPaperInfo({
       course: course,
@@ -123,10 +119,7 @@ const postPaper = async (req, res) => {
       name: name,
       year: year,
     });
-    // console.log("saved in database");
-    const meta = await paperInfo.save();
-    console.log(meta, "meta======");
-
+    await paperInfo.save();
     if (meta && userId) {
       await userModel.findByIdAndUpdate(
         userId,
@@ -134,11 +127,6 @@ const postPaper = async (req, res) => {
           $push: {
             papers: {
               paperId: meta._id,
-              course: meta.course,
-              branch: meta.branch,
-              paper: meta.paper,
-              semester: meta.semester,
-              year: meta.year,
             },
           },
         },
@@ -155,11 +143,6 @@ const postPaper = async (req, res) => {
 //==================== update paper ================================
 
 const updatePaper = async (req, res) => {
-  if (req.user.role != "superadmin")
-    return res.status(401).json({
-      message: "You are not authorized,Please Login with admin email",
-    });
-
   try {
     const { id } = req.params;
     const data = req.body;
@@ -173,8 +156,7 @@ const updatePaper = async (req, res) => {
       !data.paper ||
       !data.semester ||
       !data.year ||
-      !data.name ||
-      !data.downloadable
+      !data.name
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -186,8 +168,8 @@ const updatePaper = async (req, res) => {
       data.pdfContentType = req.file.mimetype;
     }
 
-    const Paper = mongoose.model("paper", paperSchema, data.course);
-
+    // const Paper = mongoose.model("paper", paperSchema, data.course);
+    if (req.user?.role != "superadmin") data.downloadable = false;
     const updatedPaper = await Paper.findByIdAndUpdate(
       id,
       {
@@ -224,7 +206,7 @@ const deletePaper = async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    const Paper = mongoose.model("paper", paperSchema, course);
+    // const Paper = mongoose.model("paper", paperSchema, course);
 
     const deletedPaper = await Paper.findByIdAndDelete(id);
 

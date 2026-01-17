@@ -24,26 +24,7 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Paper",
         required: true,
-      },
-      course: {
-        type: String,
-        required: true,
-      },
-      branch: {
-        type: String,
-        required: true,
-      },
-      paper: {
-        type: String,
-        required: true,
-      },
-      semester: {
-        type: String,
-        required: true,
-      },
-      year: {
-        type: String,
-      },
+      }
     },
   ],
 });

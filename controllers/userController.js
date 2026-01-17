@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const paperSchema = require("../models/paperModel");
 // ===============generate taken====================
 
 const generateToken = (id) => {
@@ -79,7 +80,6 @@ const loginUser = async (req, res) => {
     });
   } catch (error) {
     console.log("login failed", error);
-
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -119,7 +119,13 @@ const updateUser = async (req, res) => {
 const userData = async (req, res) => {
   try {
     const userId = req.query?.userId;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)
+      .select("-papers._id")
+      .populate(
+        "papers.paperId",
+        "-pdf"
+      );
+      
     if (!user) return res.status(404).json({ message: "User not found" });
     return res
       .status(200)
