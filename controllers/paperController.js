@@ -1,4 +1,3 @@
-const newPaperInfo = require("../models/newPaperModel");
 const Paper = require("../models/paperModel");
 const userModel = require("../models/userModel");
 
@@ -222,9 +221,29 @@ const deletePaper = async (req, res) => {
   }
 };
 
+const getHiddenPapers = async (req,res) => {
+  try {
+    const reqPaper = await Paper.find(
+      { downloadable: false },
+      { pdf: 0, pdfContentType: 0 },
+    ).sort({ paper: 1 });
+
+    if (reqPaper.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Sorry! No New Papers." });
+    }
+    res.status(200).json(reqPaper);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   downloadPaper,
   getPaper,
+  getHiddenPapers,
   postPaper,
   updatePaper,
   deletePaper,
