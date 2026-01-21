@@ -29,12 +29,12 @@ const downloadPaper = async (req, res) => {
     if (t === "d")
       res.setHeader(
         "Content-Disposition",
-        `attachment; filename="${reqPaper.paper}.pdf"`
+        `attachment; filename="${reqPaper.paper}.pdf"`,
       );
     if (t === "s")
       res.setHeader(
         "Content-Disposition",
-        `inline; filename="${reqPaper.paper}.pdf"`
+        `inline; filename="${reqPaper.paper}.pdf"`,
       );
     res.status(200).send(reqPaper.pdf);
   } catch (error) {
@@ -64,7 +64,7 @@ const getPaper = async (req, res) => {
     // const Paper = mongoose.model("paper", paperSchema);
     const reqPaper = await Paper.find(
       { ...requestedData },
-      { pdf: 0, pdfContentType: 0 }
+      { pdf: 0, pdfContentType: 0 },
     ).sort({ paper: 1 });
 
     if (reqPaper.length === 0) {
@@ -130,7 +130,7 @@ const postPaper = async (req, res) => {
             },
           },
         },
-        { new: true }
+        { new: true },
       );
     }
     res.status(201).json({ message: "Thankyou! Paper uploaded successfully." });
@@ -175,7 +175,7 @@ const updatePaper = async (req, res) => {
       {
         $set: data,
       },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedPaper) {
@@ -199,10 +199,10 @@ const deletePaper = async (req, res) => {
       message: "You are not authorized,Please Login with admin email",
     });
 
-  const { id, course } = req.params;
+  const { id } = req.params;
 
   try {
-    if (!id || !course) {
+    if (!id) {
       return res.status(400).json({ message: "All fields are required." });
     }
 

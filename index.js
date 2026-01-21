@@ -30,7 +30,7 @@ app.use(
     ],
     methods: "GET,HEAD,PUT,POST,DELETE",
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json({ limit: "2mb" }));

@@ -12,6 +12,6 @@ router.post(`/v1`, getPaper)
 router.post('/v2', upload.single('pdf'), postPaper)
 router.get('/download',downloadPaper);
 router.put('/update/:id',protect,upload.single('pdf'),updatePaper)
-router.delete('/delete/:course/:id',protect,deletePaper)
+router.delete('/delete/:id',protect,deletePaper)
 
 module.exports = router
