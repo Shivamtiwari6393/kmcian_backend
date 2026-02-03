@@ -110,15 +110,6 @@ const postPaper = async (req, res) => {
 
     const meta = await newPaper.save();
 
-    const paperInfo = new newPaperInfo({
-      course: course,
-      branch: branch,
-      paper: paper,
-      semester: semester,
-      name: name,
-      year: year,
-    });
-    await paperInfo.save();
     if (meta && userId) {
       await userModel.findByIdAndUpdate(
         userId,
