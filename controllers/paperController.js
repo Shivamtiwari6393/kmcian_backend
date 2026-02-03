@@ -46,13 +46,13 @@ const downloadPaper = async (req, res) => {
 //============= get paper ==========================
 
 const getPaper = async (req, res) => {
-  const { course, branch, semester, year, downloadable } = req.body;
+  const { course, branch, semester, year } = req.body;
   if (!course || !branch || !semester || !year) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const requestedData = {
     course: course,
-    downloadable: downloadable,
+    downloadable: true,
   };
 
   if (semester !== "All") requestedData.semester = semester;
@@ -157,7 +157,8 @@ const updatePaper = async (req, res) => {
     // console.log(req.user.role, data.email);
     if (req.user?.role != "superadmin" && req.user?.email != data.email)
       return res.status(401).json({
-        message: "You are not authorized,Please Login with email you uploaded this paper",
+        message:
+          "You are not authorized,Please Login with email you uploaded this paper",
       });
 
     if (req.file) {
@@ -219,6 +220,11 @@ const deletePaper = async (req, res) => {
 };
 
 const getHiddenPapers = async (req, res) => {
+  if (req.user.role != "superadmin")
+    return res.status(401).json({
+      message: "You are not authorized,Please Login with admin email",
+    });
+
   try {
     const reqPaper = await Paper.find(
       { downloadable: false },

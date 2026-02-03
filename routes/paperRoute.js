@@ -13,7 +13,7 @@ const {
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.get(`/v1`, getHiddenPapers);
+router.get(`/v1`,protect,  getHiddenPapers);
 router.post(`/v1`, getPaper);
 router.post("/v2", upload.single("pdf"), postPaper);
 router.get("/download", downloadPaper);
