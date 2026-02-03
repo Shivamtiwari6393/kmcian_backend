@@ -81,7 +81,8 @@ const getPaper = async (req, res) => {
 //================== post paper=========================================
 
 const postPaper = async (req, res) => {
-  const { course, branch, paper, semester, name, year, userId } = req.body;
+  const { course, branch, paper, semester, name, year, userId, email } =
+    req.body;
 
   if (
     !course ||
@@ -106,6 +107,7 @@ const postPaper = async (req, res) => {
       downloadable: false,
       name,
       year,
+      email,
     });
 
     const meta = await newPaper.save();
@@ -146,19 +148,23 @@ const updatePaper = async (req, res) => {
       !data.paper ||
       !data.semester ||
       !data.year ||
-      !data.name
+      !data.name ||
+      !data.email
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // console.log(data,"inside update");
+    // console.log(req.user.role, data.email);
+    if (req.user?.role != "superadmin" && req.user?.email != data.email)
+      return res.status(401).json({
+        message: "You are not authorized,Please Login with email you uploaded this paper",
+      });
 
     if (req.file) {
       data.pdf = req.file.buffer;
       data.pdfContentType = req.file.mimetype;
     }
 
-    // const Paper = mongoose.model("paper", paperSchema, data.course);
     if (req.user?.role != "superadmin") data.downloadable = false;
     const updatedPaper = await Paper.findByIdAndUpdate(
       id,
@@ -212,7 +218,7 @@ const deletePaper = async (req, res) => {
   }
 };
 
-const getHiddenPapers = async (req,res) => {
+const getHiddenPapers = async (req, res) => {
   try {
     const reqPaper = await Paper.find(
       { downloadable: false },
@@ -220,9 +226,7 @@ const getHiddenPapers = async (req,res) => {
     ).sort({ paper: 1 });
 
     if (reqPaper.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "Sorry! No New Papers." });
+      return res.status(404).json({ message: "Sorry! No New Papers." });
     }
     res.status(200).json(reqPaper);
   } catch (e) {

@@ -41,8 +41,11 @@ const paperSchema = new mongoose.Schema(
     uploader: {
       type: String,
     },
+    email: {
+      type: String,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Paper", paperSchema);

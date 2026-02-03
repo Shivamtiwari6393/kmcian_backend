@@ -77,6 +77,7 @@ const loginUser = async (req, res) => {
       userId: user._id,
       role: user.role,
       username: user.username,
+      email : user.email
     });
   } catch (error) {
     console.log("login failed", error);
