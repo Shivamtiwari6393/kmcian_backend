@@ -1,5 +1,5 @@
 const Paper = require("../models/paperModel");
-const userModel = require("../models/userModel");
+const User = require("../models/userModel");
 
 // ===============download paper==================================
 
@@ -113,7 +113,7 @@ const postPaper = async (req, res) => {
     const meta = await newPaper.save();
 
     if (meta && userId) {
-      await userModel.findByIdAndUpdate(
+      await User.findByIdAndUpdate(
         userId,
         {
           $push: {
@@ -203,14 +203,31 @@ const deletePaper = async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
+    const result = await Paper.findOne(
+      { _id: id },
+      { pdf: 0, pdfContentType: 0 },
+    );
 
-    const deletedPaper = await Paper.findByIdAndDelete(id);
+    if (!result) return res.status(404).json({ message: "Paper not found" });
 
-    if (!deletedPaper) {
-      return res.status(404).json({ message: "Sorry! Paper not found." });
+    const email = result.email;
+
+    if (email) {
+      const user = await User.findOne({ email: email });
+      // console.log("user", user);
+      if (user) {
+        const deletedPaper = await User.updateOne(
+          { email: email },
+          { $pull: { papers: { paperId: id } } },
+        );
+        // console.log(deletedPaper, "deleted");
+      }
     }
 
-    return res.status(200).json({ message: "Paper deleted successfully." });
+    await Paper.findByIdAndDelete(id);
+    return res
+      .status(200)
+      .json({ message: "Paper deleted successfully.", result });
   } catch (error) {
     console.log("error in deleting paper", error);
 
