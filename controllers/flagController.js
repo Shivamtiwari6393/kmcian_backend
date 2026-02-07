@@ -1,13 +1,14 @@
-const Flag = require("../models/flagModel")
-
+const Flag = require("../models/flagModel");
 
 //=============== flag post ================
 
 const postFlag = async (req, res) => {
   try {
-    const { _id, course, branch, paper, semester, description, year, name } = req.body
+    const { _id, course, branch, paper, semester, description, year, name } =
+      req.body;
 
-    if (!_id || !description) return res.status(400).json({ "message": "All fields are required" })
+    if (!_id || !description)
+      return res.status(400).json({ message: "All fields are required" });
 
     const flag = new Flag({
       paperId: _id,
@@ -17,38 +18,45 @@ const postFlag = async (req, res) => {
       semester: semester,
       year: year,
       name: name,
-      description: description
-    })
+      description: description,
+    });
 
-
-    const savedFlag = await flag.save()
-    return res.status(201).json({ "message": "flag uploaded" })
-
+    const savedFlag = await flag.save();
+    return res.status(201).json({ message: "flag uploaded" });
   } catch (error) {
-
     console.log(error, "error in uploading flag");
-    return res.status(500).json({ "message": "Internal server error" })
-
+    return res.status(500).json({ message: "Internal server error" });
   }
+};
 
-}
-
-
-// get flag 
-
+// get flag
 
 const getFlag = async (req, res) => {
   try {
-    const flags = await Flag.find()
-    return res.status(200).json(flags)
-    
+    const flags = await Flag.find();
+    return res.status(200).json(flags);
   } catch (error) {
     console.log(error, "err in get flag");
-    return res.status(500).json({ "message": "Internal server error" })
-
+    return res.status(500).json({ message: "Internal server error" });
   }
+};
 
-}
+const deleteFlag = async (req, res) => {
+  const { flagId } = req.params;
 
+  // console.log(flagId, "fladId");
 
-module.exports = { postFlag, getFlag }
+  try {
+    const result = await Flag.findByIdAndDelete(flagId);
+    // console.log(result);
+
+    if (result)
+      return res.status(200).json({ message: "flag deleted successfully" });
+    else return res.status(404).json({ message: "flag not found" });
+  } catch (error) {
+    console.log("error in deleting flag", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = { postFlag, getFlag, deleteFlag };

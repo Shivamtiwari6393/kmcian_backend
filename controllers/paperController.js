@@ -203,7 +203,6 @@ const deletePaper = async (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    // const Paper = mongoose.model("paper", paperSchema, course);
 
     const deletedPaper = await Paper.findByIdAndDelete(id);
 
@@ -212,7 +211,7 @@ const deletePaper = async (req, res) => {
     }
 
     return res.status(200).json({ message: "Paper deleted successfully." });
-  } catch (e) {
+  } catch (error) {
     console.log("error in deleting paper", error);
 
     return res.status(500).json({ message: "Internal Server Error" });
