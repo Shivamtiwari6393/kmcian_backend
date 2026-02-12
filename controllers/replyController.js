@@ -23,8 +23,8 @@ const postReply = async (req, res) => {
             content: content
         }
         )
-        await newReply.save()
-        return res.status(200).json({ message: "Success! Replied successfully." })
+       const savedReply =  await newReply.save()
+        return res.status(200).json({ message: "Success! Replied successfully.", reply :  savedReply})
     } catch (error) {
         console.log("error in posting reply", error);
         return res.status(500).json({ message: "Server error" })
