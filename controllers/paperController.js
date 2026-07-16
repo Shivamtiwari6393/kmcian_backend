@@ -78,6 +78,22 @@ const getPaper = async (req, res) => {
   }
 };
 
+// check requirements
+
+const checkRequirements = async (req, res) => {
+  const { course, branch, semester, year, paper } = req.query;
+  const exist = await Paper.findOne({
+    course: course,
+    paper: paper,
+    semester: semester,
+    branch: branch,
+    year: year,
+  });
+
+  if (exist) return res.status(409).json({ message: "Paper already exist" });
+  else return res.status(200).json({ message: "Requirements satisfied" });
+};
+
 //================== post paper=========================================
 
 const postPaper = async (req, res) => {
@@ -264,4 +280,5 @@ module.exports = {
   postPaper,
   updatePaper,
   deletePaper,
+  checkRequirements,
 };

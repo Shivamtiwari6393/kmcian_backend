@@ -9,11 +9,14 @@ const {
   deletePaper,
   downloadPaper,
   getHiddenPapers,
+  checkRequirements,
 } = require("../controllers/paperController");
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-router.get(`/v1`,protect,  getHiddenPapers);
+router.get(`/v1`, protect, getHiddenPapers);
+router.get(`/v2`, checkRequirements);
+
 router.post(`/v1`, getPaper);
 router.post("/v2", upload.single("pdf"), postPaper);
 router.get("/download", downloadPaper);
