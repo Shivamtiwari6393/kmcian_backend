@@ -44,6 +44,9 @@ const paperSchema = new mongoose.Schema(
     email: {
       type: String,
     },
+    normalpapername: {
+      type: String,
+    },
   },
   { timestamps: true },
 );

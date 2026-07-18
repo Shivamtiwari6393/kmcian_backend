@@ -82,13 +82,19 @@ const getPaper = async (req, res) => {
 
 const checkRequirements = async (req, res) => {
   const { course, branch, semester, year, paper } = req.query;
-  const exist = await Paper.findOne({
-    course: course,
-    paper: paper,
-    semester: semester,
-    branch: branch,
-    year: year,
-  });
+
+  if (!course || !branch || !year || !paper || !semester)
+    return res.status(400).json({ message: "All fields are required" });
+  const exist = await Paper.findOne(
+    {
+      course: course,
+      semester: semester,
+      branch: branch,
+      year: year,
+      normalpapername: paper.replace(/\s+/g, "").toLowerCase(),
+    },
+    { normalpapername: 1 },
+  );
 
   if (exist) return res.status(409).json({ message: "Paper already exist" });
   else return res.status(200).json({ message: "Requirements satisfied" });
@@ -112,6 +118,7 @@ const postPaper = async (req, res) => {
   }
   const pdf = req.file.buffer;
   const pdfContentType = req.file.mimetype;
+  const normalName = paper.replace(/\s+/g, "").toLowerCase();
   try {
     const newPaper = new Paper({
       course,
@@ -124,6 +131,7 @@ const postPaper = async (req, res) => {
       name,
       year,
       email,
+      normalpapername: normalName,
     });
 
     const meta = await newPaper.save();
