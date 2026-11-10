@@ -10,7 +10,7 @@ const getProtectedMetaData = async (req, res) => {
     let query = null;
 
     if (req.user?.role === "admin") {
-      query = cursor ? { createdAt: { $lt: cursor }, show: 2 } : { show: 2 };
+      query = cursor ? { createdAt: { $lt: cursor }, show: 1 } : { show: 1 };
     }
 
     if (req.user?.role === "superadmin") {
@@ -38,7 +38,6 @@ const getProtectedMetaData = async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 };
-
 
 const getMetaData = async (req, res) => {
   try {
@@ -137,7 +136,7 @@ const getSignedUrl = async (req, res) => {
     // console.log("singning", paramsToSign);
     const signature = cloudinary.utils.api_sign_request(
       paramsToSign,
-      process.env.API_SECRET
+      process.env.API_SECRET,
     );
     res.status(200).json({
       signature,

@@ -3,7 +3,7 @@ const Announcement = require("../models/AnnouncementModel");
 //=========== Announcement Post Request==============
 
 const postAnnouncement = async (req, res) => {
-  if (req.user.role != "superadmin")
+  if (req.user.role != "admin")
     return res
       .status(401)
       .json({
@@ -67,7 +67,7 @@ const getAnnouncement = async (req, res) => {
 //============== delete Announcement====================
 
 const deleteAnnouncement = async (req, res) => {
-  if (req.user.role != "superadmin")
+  if (req.user.role != "admin")
     return res.status(401).json({
       message: "You are not authorized,Please Login with admin email",
     });

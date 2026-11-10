@@ -179,7 +179,7 @@ const updatePaper = async (req, res) => {
     }
 
     // console.log(req.user.role, data.email);
-    if (req.user?.role != "superadmin" && req.user?.email != data.email)
+    if (req.user?.role != "admin" && req.user?.email != data.email)
       return res.status(401).json({
         message:
           "You are not authorized,Please Login with email you uploaded this paper",
@@ -260,7 +260,7 @@ const deletePaper = async (req, res) => {
 };
 
 const getHiddenPapers = async (req, res) => {
-  if (req.user.role != "superadmin")
+  if (req.user.role != "admin")
     return res.status(401).json({
       message: "You are not authorized,Please Login with admin email",
     });
