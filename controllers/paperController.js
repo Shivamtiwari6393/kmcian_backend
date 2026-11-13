@@ -260,7 +260,7 @@ const deletePaper = async (req, res) => {
 };
 
 const getHiddenPapers = async (req, res) => {
-  if (req.user.role != "admin")
+  if (req.user.role == "user")
     return res.status(401).json({
       message: "You are not authorized,Please Login with admin email",
     });
