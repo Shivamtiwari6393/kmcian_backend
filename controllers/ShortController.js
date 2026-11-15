@@ -10,15 +10,7 @@ const getProtectedMetaData = async (req, res) => {
     let query = null;
 
     if (req.user?.role === "admin") {
-      query = cursor ? { createdAt: { $lt: cursor }, show: 1 } : { show: 1 };
-    }
-
-    if (req.user?.role === "superadmin") {
       query = cursor ? { createdAt: { $lt: cursor } } : {};
-    }
-
-    if (req.user.role === "user") {
-      query = cursor ? { createdAt: { $lt: cursor }, show: 1 } : { show: 1 };
     }
 
     if (query) {
@@ -88,7 +80,7 @@ const postMetadata = async (req, res) => {
 // ==================delete short =============================
 
 const deleteShort = async (req, res) => {
-  if (req.user.role != "superadmin")
+  if (req.user.role != "admin")
     return res.status(401).json({
       message: "You are not authorized,Please Login with admin email",
     });

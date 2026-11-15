@@ -51,7 +51,7 @@ const postQuery = async (req, res) => {
 //==================== delete query===============
 
 const deleteQuery = async (req, res) => {
-  if (req.user.role != "superadmin")
+  if (req.user.role != "admin")
     return res.status(401).json({
       message: "You are not authorized,Please Login with admin email",
     });

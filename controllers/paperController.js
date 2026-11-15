@@ -190,7 +190,7 @@ const updatePaper = async (req, res) => {
       data.pdfContentType = req.file.mimetype;
     }
 
-    if (req.user?.role != "superadmin") data.downloadable = false;
+    if (req.user?.role != "admin") data.downloadable = false;
     const updatedPaper = await Paper.findByIdAndUpdate(
       id,
       {
@@ -215,7 +215,7 @@ const updatePaper = async (req, res) => {
 //====================== delete paper===================================
 
 const deletePaper = async (req, res) => {
-  if (req.user.role != "superadmin")
+  if (req.user.role != "admin")
     return res.status(401).json({
       message: "You are not authorized,Please Login with admin email",
     });

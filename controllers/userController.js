@@ -19,7 +19,6 @@ const registerUser = async (req, res) => {
   }
 
   let role = "user";
-  if (req.user?.role === "superadmin") role = "superadmin";
   if (req.user?.role === "admin") role = "admin";
 
   try {
