@@ -215,47 +215,57 @@ const updatePaper = async (req, res) => {
 //====================== delete paper===================================
 
 const deletePaper = async (req, res) => {
-  if (req.user.role != "admin")
-    return res.status(401).json({
-      message: "You are not authorized,Please Login with admin email",
-    });
-
   const { id } = req.params;
 
   try {
     if (!id) {
-      return res.status(400).json({ message: "All fields are required." });
+      return res.status(400).json({
+        message: "Paper ID is required.",
+      });
     }
 
-    const result = await Paper.findOne(
-      { _id: id },
-      { pdf: 0, pdfContentType: 0 },
-    );
+    const paper = await Paper.findById(id, { pdf: 0, pdfContentType: 0 });
 
-    if (!result) return res.status(404).json({ message: "Paper not found" });
-
-    const email = result.email;
-
-    if (email) {
-      const user = await User.findOne({ email: email });
-      // console.log("user", user);
-      if (user) {
-        const deletedPaper = await User.updateOne(
-          { email: email },
-          { $pull: { papers: { paperId: id } } },
-        );
-        // console.log(deletedPaper, "deleted");
-      }
+    if (!paper) {
+      return res.status(404).json({
+        message: "Paper not found.",
+      });
     }
 
-    await Paper.findByIdAndDelete(id);
-    return res
-      .status(200)
-      .json({ message: "Paper deleted successfully.", result });
+    const isOwner = paper.email === req.user.email;
+    const isAdmin = req.user.role === "admin";
+
+    if (isOwner) {
+      await User.updateOne(
+        { email: req.user.email },
+        { $pull: { papers: { paperId: id } } },
+      );
+
+      await Paper.findByIdAndUpdate(id, {
+        $set: { show: 0 },
+      });
+
+      return res.status(200).json({
+        message: "Paper deleted successfully.",
+      });
+    }
+
+    if (isAdmin) {
+      await Paper.findByIdAndDelete(id);
+
+      return res.status(200).json({
+        message: "Paper permanently deleted.",
+      });
+    }
+
+    return res.status(403).json({
+      message: "You are not authorized to delete this paper.",
+    });
   } catch (error) {
-    console.log("error in deleting paper", error);
-
-    return res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error deleting paper:", error);
+    return res.status(500).json({
+      message: "Internal Server Error.",
+    });
   }
 };
 
@@ -281,6 +291,28 @@ const getHiddenPapers = async (req, res) => {
   }
 };
 
+const getUserDeletedPapers = async (req, res) => {
+  if (req.user.role != "admin")
+    return res.status(401).json({
+      message: "You are not authorized,Please Login with admin email",
+    });
+
+  try {
+    const reqPaper = await Paper.find(
+      { show: 0 },
+      { pdf: 0, pdfContentType: 0 },
+    ).sort({ paper: 1 });
+
+    if (reqPaper.length === 0) {
+      return res.status(404).json({ message: "Sorry! No Deleted Papers." });
+    }
+    res.status(200).json(reqPaper);
+  } catch (e) {
+    // console.log(e);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   downloadPaper,
   getPaper,
@@ -289,4 +321,5 @@ module.exports = {
   updatePaper,
   deletePaper,
   checkRequirements,
+  getUserDeletedPapers,
 };

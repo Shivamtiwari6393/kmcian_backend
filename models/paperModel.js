@@ -47,6 +47,12 @@ const paperSchema = new mongoose.Schema(
     normalpapername: {
       type: String,
     },
+
+    show: {
+      type: Number,
+      default: 1,
+    },
+
   },
   { timestamps: true },
 );
